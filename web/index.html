@@ -1,0 +1,274 @@
+		<!DOCTYPE html>
+		<html lang="en">
+			<head>
+				<meta charset="UTF-8" />
+				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+				<meta name="description" content="Quckstart with 2GIS Map API" />
+				<title>DDOS</title>
+				<style>
+					#background{
+						position: absolute;
+						left: 0px;
+						top: 0px;
+						width: 100%;
+						height: 100%;
+						z-index: 0;
+						background: -webkit-linear-gradient(45deg, rgb(32, 217, 175), rgb(82, 151, 182), rgb(48, 86, 137));
+						background: -moz-linear-gradient(45deg, rgb(32, 217, 175), rgb(82, 151, 182), rgb(48, 86, 137));
+						background: linear-gradient(45deg, rgb(32, 217, 175), rgb(82, 151, 182), rgb(48, 86, 137));
+					}
+
+					#start{
+						position: absolute;
+						left: 10px;
+						top: 300px;
+						width: 350px;
+						height: 100px;
+						border: none;
+						transition-duration: 0.4s;
+						color: white;
+						text-align: center;
+						text-decoration: none;
+						display: inline-block;
+						font-size: 24px;
+						border-radius: 12px; 
+						z-index: 1;
+						background: blue;
+					}
+
+					#start:hover{
+						background: white;
+  						color: black;
+					}
+
+					#prog{
+						position: absolute;
+						top: 20px;
+						left: 14px;
+						color: #FFFFFF;
+						size: 10pt;
+						width: 200px;
+						height: 25px;
+						z-index: 2;
+					}
+
+					#status{
+						position: absolute;
+						top: 50px;
+						left: 14px;
+						font-size: 24px;
+						color: #FFFFFF;
+						size: 10pt;
+						width: 200px;
+						height: 24px;
+						z-index: 2;
+					}
+
+					#status2{
+						position: absolute;
+						top: 50px;
+						text-align: right;
+						left: 300px;
+						font-size: 24px;
+						color: #FFFFFF;
+						size: 10pt;
+						width: 50px;
+						height: 50px;
+						z-index: 2;
+					}
+
+					#mode{
+						position: absolute;
+						top: 90px;
+						left: 14px;
+						font-size: 24px;
+						color: #FFFFFF;
+						size: 10pt;
+						width: 250px;
+						height: 50px;
+						z-index: 2;
+					}
+
+					#mode2{
+						position: absolute;
+						top: 90px;
+						text-align: right;
+						left: 270px;
+						font-size: 24px;
+						color: #FFFFFF;
+						size: 10pt;
+						width: 50px;
+						height: 50px;
+						z-index: 2;
+					}
+
+					#cpu{
+						position: absolute;
+						top: 130px;
+						left: 14px;
+						font-size: 24px;
+						color: #FFFFFF;
+						size: 10pt;
+						width: 250px;
+						height: 50px;
+						z-index: 2;
+					}
+
+					#cpu2{
+						position: absolute;
+						top: 130px;
+						text-align: right;
+						left: 270px;
+						font-size: 24px;
+						color: #FFFFFF;
+						size: 10pt;
+						width: 50px;
+						height: 50px;
+						z-index: 2;
+					}
+
+					input[type=text] {
+						position: absolute;
+						left: 10px;
+						top: 180px;
+						width: 345px;
+						height: 50px;
+						border: none;
+						transition-duration: 0.4s;
+						color: white;
+						text-align: center;
+						text-decoration: none;
+						display: inline-block;
+						font-size: 24px;
+						border-radius: 12px; 
+						z-index: 4;
+						background: blue;
+					}
+
+					#small{
+						position: absolute;
+						left: 10px;
+						top: 240px;
+						width: 106px;
+						height: 50px;
+						border: none;
+						transition-duration: 0.4s;
+						color: white;
+						text-align: center;
+						text-decoration: none;
+						display: inline-block;
+						font-size: 24px;
+						border-radius: 12px; 
+						z-index: 1;
+						background: blue;
+					}
+
+					#small:hover{
+						background: white;
+  						color: black;
+					}
+
+					#normal{
+						position: absolute;
+						left: 138px;
+						top: 240px;
+						width: 106px;
+						height: 50px;
+						border: none;
+						transition-duration: 0.4s;
+						color: white;
+						text-align: center;
+						text-decoration: none;
+						display: inline-block;
+						font-size: 24px;
+						border-radius: 12px; 
+						z-index: 1;
+						background: blue;
+					}
+
+					#normal:hover{
+						background: white;
+  						color: black;
+					}
+
+					#big{
+						position: absolute;
+						left: 254px;
+						top: 240px;
+						width: 106px;
+						height: 50px;
+						border: none;
+						transition-duration: 0.4s;
+						color: white;
+						text-align: center;
+						text-decoration: none;
+						display: inline-block;
+						font-size: 24px;
+						border-radius: 12px; 
+						z-index: 1;
+						background: blue;
+					}
+
+					#big:hover{
+						background: white;
+  						color: black;
+					}
+
+					</style>
+					<script type="text/javascript" src="/eel.js"></script>
+					<script type="text/javascript">
+						
+						let mode = "small";
+						eel.expose(update)
+						function update(cpu, stat){
+							document.getElementById("status2").innerText = stat;
+							document.getElementById("cpu2").innerText = cpu;
+						}
+
+						window.addEventListener("beforeunload", function (e) {
+							eel.quit();
+						});
+
+						eel.expose(set_status);
+	                    function set_status(stat) {
+	                    	document.getElementById("status2").innerText = stat;
+	                    }
+
+						async function starting() {
+							let ip = document.getElementById("ip").value;
+							await eel.ddos(mode, ip)();
+						}
+
+						async function small() {
+							mode = "small";
+							document.getElementById("mode2").innerText = "SMALL";
+						}
+
+						async function big() {
+							mode = "big";
+							document.getElementById("mode2").innerText = "BIG";
+						}
+
+						async function normal() {
+							mode = "normal";
+							document.getElementById("mode2").innerText = "NORM";
+						}
+
+					</script>
+					</head>
+					<body>
+						<button onclick="big()" id="big">BIG</button>
+						<button onclick="normal()" id="normal">NORM</button>
+						<button onclick="small()" id="small">SMALL</button>
+						<div id="cpu"><text>CPU COUNT</text></div>
+						<dev id="cpu2"><text>NONE</text></dev>
+						<div id="mode2"><text>SMALL</text></div>
+						<div id="mode"><text>SELECTED MODE:</text></div>
+						<div id="status2"><text></text></div>
+						<div id="status"><text>SERVER STATUS:</text></div>
+						<div id="prog"><text>DDOS by nekita</text></div>
+						<p><input id="ip" type="text"></p>
+						<button onclick="starting()" id="start">START DDOS</button>
+						<div id="background"></div>
+				</body>
+			</html>
